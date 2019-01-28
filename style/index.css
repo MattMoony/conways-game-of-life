@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+#title_div {
+    background-color: #FFB676;
+    color: white;
+    padding: 25px;
+    margin: 0;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+#title_div h1 {
+    font-family: 'Courier New';
+    font-size: 45px;
+    padding: 0; margin: 0;
+}
+#title_div h3 {
+    font-family: 'Courier New';
+    font-size: 25px;
+    padding: 0; margin: 0;
+    font-style: italic;
+}
+
+canvas {
+    background-color: #FFF8F3;
+    display: block;
+    margin: 25px auto;
+    border: 1.5px solid #515151;
+    box-shadow: 0 0 5px #cecece;
+}
