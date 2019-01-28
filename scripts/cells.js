@@ -13,8 +13,18 @@ class Cells {
         }
     }
 
+    static spawn_at(bx, by, pattern, grid) {
+        grid = grid || cells;
+
+        for (let y = by; y < by+pattern.length; y++) {
+            for (let x = bx; x < bx+pattern[0].length; x++) {
+                grid[y][x] = pattern[y-by][x-bx];
+            }
+        }
+    }
+
     static get_neighbours(cx, cy) {
-        let neighbours = [];
+        let n_count = 0;
 
         for (let y = cy-1>=0 ? cy-1 : cy; 
             y <= (cy+1 < canvas.height/globs.tile_side ? cy+1 : cy);
@@ -28,27 +38,31 @@ class Cells {
                     continue;
 
                 if (cells[y][x])
-                    neighbours.push([x, y]);
+                    n_count++;
             }
         }
 
-        return neighbours;
+        return n_count;
     }
 
     static update_cells() {
+        let new_cells = cells.map(r => r.slice());
+
         for (let y = 0; y < cells.length; y++) {
             for (let x = 0; x < cells[y].length; x++) {
                 let n_count = Cells.get_neighbours(x, y);
 
                 if (cells[y][x]) {
-                    if (n_count.length<2 || n_count.length>3)
-                        cells[y][x]=0;
+                    if (n_count<2 || n_count>3)
+                        new_cells[y][x]=0;
                 } else {
-                    if (n_count.length==3)
-                        cells[y][x]=1;
+                    if (n_count==3)
+                        new_cells[y][x]=1;
                 }
             }
         }
+
+        cells = new_cells;
     }
 
     static show_cells() {

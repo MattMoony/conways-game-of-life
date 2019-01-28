@@ -7,6 +7,21 @@ function game_init() {
     }
 
     Cells.populize_random();
+
+    // Cells.spawn_at(0, 0, Patterns.still_lifes.block);
+    // Cells.spawn_at(0, 5, Patterns.still_lifes.beehive);
+    // Cells.spawn_at(0, 11, Patterns.still_lifes.loaf);
+    // Cells.spawn_at(0, 18, Patterns.still_lifes.boat);
+    // Cells.spawn_at(0, 24, Patterns.still_lifes.tub);
+
+    // Cells.spawn_at(6, 0, Patterns.oscillators.blinker);
+    // Cells.spawn_at(6, 6, Patterns.oscillators.toad);
+    // Cells.spawn_at(6, 13, Patterns.oscillators.beacon);
+
+    // Cells.spawn_at(12, 0, Patterns.oscillators.pentadecathlon);
+    // Cells.spawn_at(22, 0, Patterns.oscillators.pulsar);
+
+    // Cells.spawn_at(10, 10, Patterns.spaceships.lightweight_spaceship_right);
 }
 
 function draw_grid() {
@@ -29,16 +44,19 @@ function draw_grid() {
 
 function main_loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     draw_grid();
 
     Cells.update_cells();
     Cells.show_cells();
-
-    console.log('asdf');
 }
 
 window.onload = function() {
     game_init();
+
+    
+    (function () {
+        draw_grid();
+        Cells.show_cells();
+    })();
     tick_intval = window.setInterval(main_loop, globs.tick_pause);
 };
