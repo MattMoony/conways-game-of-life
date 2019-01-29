@@ -1,32 +1,12 @@
 function create_init() {
-    for (let y = 0; y < Math.floor(canvas.height/globs.tile_side); y++) {
+    cells = [];
+
+    for (let y = 0; y < Math.floor(canvas.height / globs.tile_side); y++) {
         cells.push([]);
-        for (let x = 0; x < Math.floor(canvas.width/globs.tile_side); x++) {
+        for (let x = 0; x < Math.floor(canvas.width / globs.tile_side); x++) {
             cells[y].push(0);
         }
     }
-
-    Cells.populize_random();
-    // Cells.spawn_at(0, 0, Patterns.self_made.one);
-
-    // Cells.spawn_at(0, 0, Patterns.still_lifes.block);
-    // Cells.spawn_at(0, 5, Patterns.still_lifes.beehive);
-    // Cells.spawn_at(0, 11, Patterns.still_lifes.loaf);
-    // Cells.spawn_at(0, 18, Patterns.still_lifes.boat);
-    // Cells.spawn_at(0, 24, Patterns.still_lifes.tub);
-
-    // Cells.spawn_at(6, 0, Patterns.oscillators.blinker);
-    // Cells.spawn_at(6, 6, Patterns.oscillators.toad);
-    // Cells.spawn_at(6, 13, Patterns.oscillators.beacon);
-
-    // Cells.spawn_at(0, 0, Patterns.maps.gosper_glider_gun_right_down)
-
-    // Cells.spawn_at(13, 0, Patterns.oscillators.pentadecathlon);
-    // Cells.spawn_at(23, 0, Patterns.oscillators.pulsar);
-
-    // Cells.spawn_at(10, 0, Patterns.spaceships.lightweight_spaceship_right);
-    // Cells.spawn_at(10, 10, Patterns.spaceships.middleweight_spaceship_right);
-    // Cells.spawn_at(10, 20, Patterns.spaceships.heavyweight_spaceship_right);
 }
 
 function draw_grid() {
@@ -34,12 +14,12 @@ function draw_grid() {
     ctx.lineWidth = "0.1";
 
     ctx.beginPath();
-    for (let x = 0; x < canvas.width; x+=globs.tile_side) {
+    for (let x = 0; x < canvas.width; x += globs.tile_side) {
         ctx.moveTo(x, 0);
         ctx.lineTo(x, canvas.height);
     }
 
-    for (let y = 0; y < canvas.height; y+=globs.tile_side) {
+    for (let y = 0; y < canvas.height; y += globs.tile_side) {
         ctx.moveTo(0, y);
         ctx.lineTo(canvas.width, y);
     }
@@ -49,19 +29,111 @@ function draw_grid() {
 
 function main_loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    draw_grid();
+
+    if (globs.show_grid)
+        draw_grid();
 
     Cells.update_cells();
     Cells.show_cells();
 }
 
-window.onload = function() {
-    create_init();
+function title_case(str) {
+    return str.split(' ').map(v => v.substr(0, 1).toUpperCase() + v.substr(1)).join(' ');
+}
 
-    
-    (function () {
-        draw_grid();
+window.onload = function () {
+    create_init();
+    draw_grid();
+
+    let d = document.getElementById('in_patterng');
+    for (let k of Object.keys(Patterns)) {
+        let x = document.createElement('option');
+
+        x.value = k;
+        x.innerHTML = title_case(k.replace('_', ' '));
+
+        d.appendChild(x);
+    }
+
+    document.getElementById('in_pattern').innerHTML = "";
+
+    for (let k of Object.keys(Patterns[d.value])) {
+        let x = document.createElement('option');
+
+        x.value = k;
+        x.innerHTML = title_case(k.replace(/_/g, ' '));
+
+        document.getElementById('in_pattern').appendChild(x);
+    }
+
+
+    document.getElementById('in_ticks').value = globs.tick_pause;
+    document.getElementById('in_tiles').value = globs.tile_side;
+    document.getElementById('in_acells').value = globs.alive_cells;
+
+
+    // SUBMITTED // 
+    document.getElementById('sub_settings').onclick = e => {
+        window.clearInterval(tick_intval);
+        tick_intval = null;
+
+        globs.tick_pause = +document.getElementById('in_ticks').value;
+        globs.tile_side = +document.getElementById('in_tiles').value;
+        globs.alive_cells = +document.getElementById('in_acells').value;
+
+        if (document.getElementById('in_spattern').checked) {
+            let x = +document.getElementById('in_patternx').value,
+                y = +document.getElementById('in_patterny').value;
+
+            Cells.spawn_at(x, y, Patterns[document.getElementById('in_patterng').value][document.getElementById('in_pattern').value]);
+        } else {
+            Cells.populize_random();
+        }
+
+        if (globs.show_grid)
+            draw_grid();
+
         Cells.show_cells();
-    })();
-    tick_intval = window.setInterval(main_loop, globs.tick_pause);
+        tick_intval = window.setInterval(main_loop, globs.tick_pause);
+    };
+    document.getElementById('sub_clear').onclick = e => {
+        create_init();
+    };
+    document.getElementById('sub_pp').onclick = e => {
+        if (tick_intval) {
+            window.clearInterval(tick_intval);
+            tick_intval = null;
+        } else {
+            tick_intval = window.setInterval(main_loop, globs.tick_pause);
+        }
+    };
+
+    document.getElementById('in_sgrid').onclick = e => {
+        globs.show_grid = e.target.checked;
+
+        if (e.target.checked) {
+            draw_grid();
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    d.onchange = e => {
+        document.getElementById('in_pattern').innerHTML = "";
+
+        for (let k of Object.keys(Patterns[d.value])) {
+            let x = document.createElement('option');
+
+            x.value = k;
+            x.innerHTML = title_case(k.replace(/_/g, ' '));
+
+            document.getElementById('in_pattern').appendChild(x);
+        }
+    };
+
+
+    document.getElementById('in_spattern').onclick = e => {
+        for (let el of document.getElementsByClassName('pattern_row'))
+            el.style.display = e.target.checked ? "table-row" : "none";
+    };
 };

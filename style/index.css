@@ -34,6 +34,62 @@ canvas {
     box-shadow: 0 0 5px #cecece;
 }
 
+#side_div {
+    position: absolute;
+    left: 20px;
+    top: 25%;
+    border: 1.5px solid #cecece;
+    padding: 15px;
+    background-color: rgba(255,255,255,.5);
+}
+#side_div * {
+    font-family: 'Roboto';
+}
+#side_div h3 {
+    font-size: 22.5px;
+    text-align: center;
+    margin: 0 0 7.5px 0;
+    padding: 0;
+}
+#side_div label {
+    display: block;
+    margin: 5px 0;
+}
+#side_div input, #side_div select, #side_div option {
+    padding: 2.5px 7.5px;
+    transition: .5s ease;
+    max-width: 75px;
+    float: right;
+}
+#side_div input:focus {
+    outline: none;
+}
+#side_div input[type="button"] {
+    background-color: rgba(255, 182, 118, 0.1);
+    border: 1.25px solid #FFB676;
+    border-radius: 2.5px;
+    margin: 10px 0 0 2.5px;
+    max-width: 250px;
+}
+#side_div input[type="button"]:hover {
+    opacity: .75;
+    background-color: #FFB676;
+    cursor: pointer;
+}
+#side_div .pattern_row {
+    display: none;
+}
+
+.controls {
+    border-top: 1.5px dashed #cecece;
+    display: block;
+    margin-top: 10px;
+}
+.controls input[type="button"]{
+    float: unset;
+    display: block;
+}
+
 #output_div {
     margin-top: 50px;
     padding: 25px;

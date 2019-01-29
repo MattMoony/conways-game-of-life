@@ -6,7 +6,8 @@ var canvas = document.getElementById('main'),
 var globs = {
     tick_pause: 50,
     tile_side: 20,
-    alive_cells: 500
+    alive_cells: 500,
+    show_grid: true
 },
     cells = [],
     tick_intval = null;

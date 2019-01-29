@@ -6,6 +6,8 @@
     <title>Game of Life</title>
 
     <link rel="stylesheet" type="text/css" href="style/index.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+        crossorigin="anonymous">
 </head>
 
 <body>
@@ -14,10 +16,62 @@
         <h3>by MattMoony</h3>
     </div>
 
-    <canvas id="main" width="1000" height="650"></canvas>
+    <canvas id="main" width="900" height="650"></canvas>
 
 
-    
+    <div id="side_div">
+        <h3>Settings</h3>
+        <table>
+            <tr>
+                <td>Tick-Pause: </td>
+                <td><input type="number" id="in_ticks" min="1" placeholder="..." /></td>
+            </tr>
+            <tr>
+                <td>Tile-Size: </td>
+                <td><input type="number" id="in_tiles" min="1" placeholder="..." /></td>
+            </tr>
+            <tr>
+                <td>#Alive-cells: </td>
+                <td><input type="number" id="in_acells" min="0" placeholder="..." /></td>
+            </tr>
+            <tr>
+                <td>Show grid?</td>
+                <td><input type="checkbox" id="in_sgrid" checked /></td>
+            </tr>
+            <tr>
+                <td>Use pattern?</td>
+                <td><input type="checkbox" id="in_spattern" /></td>
+            </tr>
+            <tr class="pattern_row">
+                <td>Group: </td>
+                <td><select id="in_patterng"></select></td>
+            </tr>
+            <tr class="pattern_row">
+                <td>Pattern: </td>
+                <td><select id="in_pattern"></select></td>
+            </tr>
+            <tr class="pattern_row">
+                <td>X: </td>
+                <td><input type="number" placeholder="..." min="0" value="0" id="in_patternx" /></td>
+            </tr>
+            <tr class="pattern_row">
+                <td>Y: </td>
+                <td><input type="number" placeholder="..." min="0" value="0" id="in_patterny" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="button" id="sub_settings" value="Apply" /></td>
+            </tr>
+        </table>
+
+        <table class="controls">
+            <tr>
+                <td><input type="button" id="sub_pp" value="Pause/Play" /></td>
+                <td><input type="button" id="sub_clear" value="Clear Canvas" /></td>
+            </tr>
+        </table>
+    </div>
+
+
     <script src="scripts/globs.js"></script>
     <script src="scripts/cells.js"></script>
     <script src="scripts/patterns.js"></script>
