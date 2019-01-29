@@ -27,15 +27,17 @@ class Cells {
         let n_count = 0;
 
         for (let y = cy-1>=0 ? cy-1 : cy; 
-            y <= (cy+1 < canvas.height/globs.tile_side ? cy+1 : cy);
+            y <= (cy+1 < cells.length ? cy+1 : cy);
             y++) {
 
             for (let x = cx-1>=0 ? cx-1 : cx;
-                x <= (cx+1 < canvas.width/globs.tile_side ? cx+1 : cx); 
+                x <= (cx+1 < cells[y].length ? cx+1 : cx); 
                 x++) {
 
                 if (y == cy && x == cx)
                     continue;
+
+                // console.log(y + ", " + x);
 
                 if (cells[y][x])
                     n_count++;

@@ -1,4 +1,4 @@
-function game_init() {
+function create_init() {
     for (let y = 0; y < Math.floor(canvas.height/globs.tile_side); y++) {
         cells.push([]);
         for (let x = 0; x < Math.floor(canvas.width/globs.tile_side); x++) {
@@ -7,6 +7,7 @@ function game_init() {
     }
 
     Cells.populize_random();
+    // Cells.spawn_at(0, 0, Patterns.self_made.one);
 
     // Cells.spawn_at(0, 0, Patterns.still_lifes.block);
     // Cells.spawn_at(0, 5, Patterns.still_lifes.beehive);
@@ -18,10 +19,14 @@ function game_init() {
     // Cells.spawn_at(6, 6, Patterns.oscillators.toad);
     // Cells.spawn_at(6, 13, Patterns.oscillators.beacon);
 
-    // Cells.spawn_at(12, 0, Patterns.oscillators.pentadecathlon);
-    // Cells.spawn_at(22, 0, Patterns.oscillators.pulsar);
+    // Cells.spawn_at(0, 0, Patterns.maps.gosper_glider_gun_right_down)
 
-    // Cells.spawn_at(10, 10, Patterns.spaceships.lightweight_spaceship_right);
+    // Cells.spawn_at(13, 0, Patterns.oscillators.pentadecathlon);
+    // Cells.spawn_at(23, 0, Patterns.oscillators.pulsar);
+
+    // Cells.spawn_at(10, 0, Patterns.spaceships.lightweight_spaceship_right);
+    // Cells.spawn_at(10, 10, Patterns.spaceships.middleweight_spaceship_right);
+    // Cells.spawn_at(10, 20, Patterns.spaceships.heavyweight_spaceship_right);
 }
 
 function draw_grid() {
@@ -51,7 +56,7 @@ function main_loop() {
 }
 
 window.onload = function() {
-    game_init();
+    create_init();
 
     
     (function () {

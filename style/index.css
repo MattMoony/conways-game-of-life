@@ -33,3 +33,8 @@ canvas {
     border: 1.5px solid #515151;
     box-shadow: 0 0 5px #cecece;
 }
+
+#output_div {
+    margin-top: 50px;
+    padding: 25px;
+}
