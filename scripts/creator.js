@@ -35,9 +35,9 @@ function refresh() {
     for (let y = 0; y < cells.length; y++) {
         out += "[";
         for (let x = 0; x < cells[y].length; x++) {
-            out += x==cells[y].length-1 ? cells[y][x] : cells[y][x]+", ";
+            out += x == cells[y].length - 1 ? cells[y][x] : cells[y][x] + ", ";
         }
-        out += "]" + (y == cells.length-1?"<br />":", <br/>");
+        out += "]" + (y == cells.length - 1 ? "<br />" : ", <br/>");
     }
     out += "]";
 
@@ -46,17 +46,33 @@ function refresh() {
 
 window.onload = function () {
     create_init();
+    refresh();
 
-    (function () {
-        refresh();
-    })();
+    document.onkeydown = e => {
+        if (e.key === 's' && e.ctrlKey) {
+            e.preventDefault();
 
+            let p_name;
+            while ((p_name = window.prompt('Please enter a name for your pattern: '))=="") {}
+
+            if (p_name === null)
+                return;
+
+            let patterns = {};
+            if (localStorage.getItem('gol_patterns')) {
+                patterns = JSON.parse(localStorage.getItem('gol_patterns'));
+            }
+
+            patterns[p_name] = JSON.parse(document.getElementById('output_div').innerHTML.replace(/<br>/g, ''));
+            localStorage.setItem('gol_patterns', JSON.stringify(patterns));
+        }
+    };
     document.getElementById('main').onmousemove = function (e) {
         var rect = canvas.getBoundingClientRect();
         let x = Math.floor((e.clientX - rect.left) / globs.tile_side),
             y = Math.floor((e.clientY - rect.top) / globs.tile_side);
 
-        if (e.buttons == 1) 
+        if (e.buttons == 1)
             cells[y][x] = 1;
 
         refresh();

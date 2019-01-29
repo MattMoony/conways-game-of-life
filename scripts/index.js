@@ -9,6 +9,12 @@ function create_init() {
     }
 }
 
+function get_self_made() {
+    if (localStorage.getItem('gol_patterns')) {
+        Patterns.self_made = JSON.parse(localStorage.getItem('gol_patterns'));
+    }
+}
+
 function draw_grid() {
     ctx.strokeStyle = "#515151";
     ctx.lineWidth = "0.1";
@@ -44,6 +50,7 @@ function title_case(str) {
 window.onload = function () {
     create_init();
     draw_grid();
+    get_self_made();
 
     let d = document.getElementById('in_patterng');
     for (let k of Object.keys(Patterns)) {
@@ -67,6 +74,7 @@ window.onload = function () {
     }
 
 
+
     document.getElementById('in_ticks').value = globs.tick_pause;
     document.getElementById('in_tiles').value = globs.tile_side;
     document.getElementById('in_acells').value = globs.alive_cells;
@@ -85,7 +93,11 @@ window.onload = function () {
             let x = +document.getElementById('in_patternx').value,
                 y = +document.getElementById('in_patterny').value;
 
-            Cells.spawn_at(x, y, Patterns[document.getElementById('in_patterng').value][document.getElementById('in_pattern').value]);
+            try {
+                Cells.spawn_at(x, y, Patterns[document.getElementById('in_patterng').value][document.getElementById('in_pattern').value]);
+            } catch (e) {
+                window.alert('Pattern will not completely spawn, please try to spawn somewhere around P(0, 0) ... ');
+            }
         } else {
             Cells.populize_random();
         }
@@ -98,6 +110,7 @@ window.onload = function () {
     };
     document.getElementById('sub_clear').onclick = e => {
         create_init();
+        main_loop();
     };
     document.getElementById('sub_pp').onclick = e => {
         if (tick_intval) {
@@ -106,6 +119,9 @@ window.onload = function () {
         } else {
             tick_intval = window.setInterval(main_loop, globs.tick_pause);
         }
+    };
+    document.getElementById('sub_refresh').onclick = e => {
+        get_self_made();
     };
 
     document.getElementById('in_sgrid').onclick = e => {
